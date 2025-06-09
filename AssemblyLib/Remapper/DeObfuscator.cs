@@ -7,7 +7,7 @@ namespace AssemblyLib.ReMapper;
 
 public static class Deobfuscator
 {
-    public static void Deobfuscate(string assemblyPath, bool isLauncher = false)
+    public static void Deobfuscate(string assemblyPath)
     { 
         string token;
         
@@ -54,9 +54,7 @@ public static class Deobfuscator
         token = $"0x{((uint)deobfRid.Table << 24 | deobfRid.Rid):x4}";
         Console.WriteLine($"Deobfuscation token: {token}");
 
-        var cmd = isLauncher
-            ? $"--un-name \"!^<>[a-z0-9]$&!^<>[a-z0-9]__.*$&![A-Z][A-Z]\\$<>.*$&^[a-zA-Z_<{{$][a-zA-Z_0-9<>{{}}$.`-]*$\" \"{assemblyPath}\" --strtok \"{token}\""
-            : $"--un-name \"!^<>[a-z0-9]$&!^<>[a-z0-9]__.*$&![A-Z][A-Z]\\$<>.*$&^[a-zA-Z_<{{$][a-zA-Z_0-9<>{{}}$.`-]*$\" \"{assemblyPath}\" --strtyp delegate --strtok \"{token}\"";
+        var cmd = $"--un-name \"!^<>[a-z0-9]$&!^<>[a-z0-9]__.*$&![A-Z][A-Z]\\$<>.*$&^[a-zA-Z_<{{$][a-zA-Z_0-9<>{{}}$.`-]*$\" \"{assemblyPath}\" --strtyp delegate --strtok \"{token}\"";
         
         var executablePath = Path.Combine(AppContext.BaseDirectory, "de4dot", "de4dot-x64.exe");
         
